@@ -396,6 +396,7 @@
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-twitter</artifactId>
         </dependency>
+
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
     <build>
@@ -596,6 +597,15 @@
                     </resources>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <configuration>
+                    <processTypes>
+                        <web>java -Dserver.port=$PORT -jar target/${project.build.finalName}.war --spring.datasource.heroku-url=$DATABASE_URL</web>
+                    </processTypes>
+                </configuration>
+            </plugin>
             <!-- jhipster-needle-maven-add-plugin -->
         </plugins>
         <pluginManagement>
@@ -794,6 +804,15 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>com.heroku.sdk</groupId>
+                        <artifactId>heroku-maven-plugin</artifactId>
+                        <version>1.2.0</version>
+                        <configuration>
+                            <appName>cafesitot</appName>
+                        </configuration>
+                    </plugin>
+
                 </plugins>
             </build>
             <properties>
