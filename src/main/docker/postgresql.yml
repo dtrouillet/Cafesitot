@@ -1,0 +1,11 @@
+version: '2'
+services:
+    cafesitot-postgresql:
+        image: postgres:9.6.2
+        # volumes:
+        #     - ~/volumes/jhipster/CafeSiTot/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=CafeSiTot
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
