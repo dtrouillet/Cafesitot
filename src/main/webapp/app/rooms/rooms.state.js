@@ -25,7 +25,7 @@
     function stateConfig($stateProvider) {
         $stateProvider.state('rooms', {
             parent: 'app',
-            url: '/',
+            url: '/rooms',
             data: {
                 authorities: ['ROLE_USER']
             },
