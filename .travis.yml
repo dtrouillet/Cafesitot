@@ -14,6 +14,7 @@ cache:
     - node_modules
     - $HOME/.m2
     - $HOME/.yarn-cache
+    - src/main/webapp/bower-components
 env:
   global:
     - NODE_VERSION=6.11.1
