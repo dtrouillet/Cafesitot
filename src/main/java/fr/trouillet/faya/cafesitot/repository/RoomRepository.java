@@ -13,21 +13,18 @@
  *
  */
 
-(function() {
-    'use strict';
+package fr.trouillet.faya.cafesitot.repository;
 
-    angular
-        .module('cafeSiTotApp')
-        .controller('RoomsController', RoomsController);
+import fr.trouillet.faya.cafesitot.domain.Room;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-    RoomsController.$inject = ['Room'];
+import java.util.Optional;
 
-    function RoomsController (Room) {
-        var vm = this;
-        vm.rooms = [];
-
-        Room.query({}, function(data){
-            vm.rooms = data;
-        });
-    }
-})();
+/**
+ * Spring Data JPA repository for the Room entity.
+ */
+@Repository
+public interface RoomRepository extends JpaRepository<Room, Long> {
+    public Optional<Room> findById(Long id);
+}

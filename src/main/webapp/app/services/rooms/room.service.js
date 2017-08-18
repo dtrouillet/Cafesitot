@@ -13,21 +13,30 @@
  *
  */
 
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('cafeSiTotApp')
-        .controller('RoomsController', RoomsController);
+        .factory('Room', Room);
 
-    RoomsController.$inject = ['Room'];
+    Room.$inject = ['$resource'];
 
-    function RoomsController (Room) {
-        var vm = this;
-        vm.rooms = [];
-
-        Room.query({}, function(data){
-            vm.rooms = data;
+    function Room ($resource) {
+        var service = $resource('api/rooms/:id', {}, {
+            'query': {method: 'GET', isArray: true},
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    data = angular.fromJson(data);
+                    return data;
+                }
+            },
+            'save': { method:'POST' },
+            'update': { method:'PUT' },
+            'delete':{ method:'DELETE'}
         });
+
+        return service;
     }
 })();
