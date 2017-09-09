@@ -13,16 +13,32 @@
   ~  */
   -->
 
-<div ng-cloak>
-    <div class="row">
-        <div class="col-md-12">
-            <button ui-sref="rooms.new">Create new room</button>
-            <h1 data-translate="rooms.title">Available rooms list</h1>
-            <table>
-                <tr ng-repeat="room in vm.rooms">
-                    <td>{{room.label}}</td>
-                </tr>
-            </table>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="titreRoom">
+            Créer ou modifier une Room</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label" for="labelRoom">Libellé</label>
+            <input class="form-control" type="text" id="labelRoom" name="labelRoom" ng-model="vm.room.label" required>
+            <div ng-show="editForm.labelRoom.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.labelRoom.$error.required">
+                    Ce champ est requis.
+                </p>
+            </div>
         </div>
     </div>
-</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Annuler</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Enregistrer</span>
+        </button>
+    </div>
+</form>

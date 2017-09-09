@@ -13,7 +13,7 @@
  *
  */
 
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -24,24 +24,51 @@
 
     function stateConfig($stateProvider) {
         $stateProvider.state('rooms', {
-            parent: 'app',
-            url: '/rooms',
-            data: {
-                authorities: ['ROLE_USER']
-            },
-            views: {
-                'content@': {
-                    templateUrl: 'app/rooms/rooms.html',
-                    controller: 'RoomsController',
-                    controllerAs: 'vm'
+                parent: 'app',
+                url: '/rooms',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'app/rooms/rooms.html',
+                        controller: 'RoomsController',
+                        controllerAs: 'vm'
+                    }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('rooms');
+                        return $translate.refresh();
+                    }]
                 }
-            },
-            resolve: {
-                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
-                    $translatePartialLoader.addPart('rooms');
-                    return $translate.refresh();
+            })
+            .state('rooms.new', {
+                url: '/new',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/rooms/room-dialog.html',
+                        controller: 'RoomDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: function () {
+                                return {
+                                    id: null,
+                                    label: null
+                                };
+                            }
+                        }
+                    }).result.then(function () {
+                        $state.go('rooms', null, {reload: true});
+                    }, function () {
+                        $state.go('rooms');
+                    });
                 }]
-            }
-        });
+            });
     }
 })();
